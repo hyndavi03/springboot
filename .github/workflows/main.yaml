@@ -33,14 +33,16 @@ jobs:
         echo "sonar.host.url=${{ secrets.SONAR_HOST_URL }}" >> sonar-scanner-5.0.0.2966-linux/conf/sonar-scanner.properties
         echo "sonar.login=${{ secrets.SONAR_TOKEN }}" >> sonar-scanner-5.0.0.2966-linux/conf/sonar-scanner.properties
         echo "sonar.projectKey=demo" >> sonar-scanner-5.0.0.2966-linux/conf/sonar-scanner.properties
+        echo "sonar.java.binaries=target/classes" >> sonar-scanner-5.0.0.2966-linux/conf/sonar-scanner.properties
 
         # Run SonarScanner and handle errors
         if ./sonar-scanner-5.0.0.2966-linux/bin/sonar-scanner; then
-          echo "SonarQube analysis completed successfully."
+        echo "SonarQube analysis completed successfully."
         else
-          echo "SonarQube analysis failed."
-          exit 1
+         echo "SonarQube analysis failed."
+         exit 1
         fi
+
 
     - name: Change to repository root
       run: cd $GITHUB_WORKSPACE
