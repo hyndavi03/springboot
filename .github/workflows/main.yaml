@@ -20,16 +20,32 @@ jobs:
 
     - name: Change to repository root
       run: cd $GITHUB_WORKSPACE
-
   
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: SonarQube Scan
-      run: mvn sonar:sonar -Dsonar.projectKey=demo1 -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+    - name: Build and Push Docker image
+      run: |
+        # Authenticate Docker to the ECR registry
+        aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 390067525135.dkr.ecr.ap-south-1.amazonaws.com
 
-    - name: Save as Artifacts
-      uses: actions/upload-artifact@v3
+        # Build and push Docker image
+        docker build -t springboot .
+        docker tag springboot:latest 390067525135.dkr.ecr.ap-south-1.amazonaws.com/springboot:latest
+        docker push 390067525135.dkr.ecr.ap-south-1.amazonaws.com/springboot:latest
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+
+    - name: Deploy to ECS
+      uses: aws-actions/amazon-ecs-deploy-task@v2
       with:
-        name: HelloWorldApplication
-        path: spring-boot-2-hello-world-1.0.2-SNAPSHOT.jar
+        task-definition: springtask
+        container-name: springcont
+        image: 390067525135.dkr.ecr.ap-south-1.amazonaws.com/springboot:latest
+        service: springsservice
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
