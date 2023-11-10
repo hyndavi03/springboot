@@ -28,8 +28,7 @@ jobs:
       run: rm -rf $HOME/.sonar/cache
 
     - name: SonarQube Scan
-      run: mvn clean verify sonar:sonar -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.organization=temporary -Dsonar.projectKey=temporary -Dsonar.branch.name=${GITHUB_REF#refs/heads/}
-
+      run: mvn clean verify sonar:sonar -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.organization=temporary -Dsonar.projectKey=temporary 
     - name: Build and Push Docker image
       run: |
         # Authenticate Docker to the ECR registry
