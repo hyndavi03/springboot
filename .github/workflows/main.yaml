@@ -39,10 +39,8 @@ jobs:
         AWS_REGION: ${{ secrets.AWS_REGION }}
 
     - name: Deploy to ECS
-      uses: aws-actions/amazon-ecs-deploy-task@v2
+      uses: aws/copilot-github-actions/ecs-deploy@v1
       with:
-        repository: aws-actions/amazon-ecs-deploy-task
-        ref: v2
         task-definition: springtask
         container-name: springcont
         image: 390067525135.dkr.ecr.ap-south-1.amazonaws.com/springboot:latest
