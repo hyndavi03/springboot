@@ -41,11 +41,13 @@ jobs:
     - name: Deploy to ECS
       uses: aws-actions/amazon-ecs-deploy-task@v2
       with:
+        repository: aws-actions/amazon-ecs-deploy-task
+        ref: v2
         task-definition: springtask
         container-name: springcont
         image: 390067525135.dkr.ecr.ap-south-1.amazonaws.com/springboot:latest
         service: springsservice
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: ${{ secrets.AWS_REGION }}
+    env:
+       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+       AWS_REGION: ${{ secrets.AWS_REGION }}
