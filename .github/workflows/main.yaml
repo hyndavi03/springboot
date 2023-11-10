@@ -45,7 +45,7 @@ jobs:
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
       with:
-        task-definition: springtask
+        task-definition: springtask-revision1.json
         container-name: springcont
         image: 390067525135.dkr.ecr.ap-south-1.amazonaws.com/springboot:latest
 
