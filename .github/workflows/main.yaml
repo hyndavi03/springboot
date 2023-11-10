@@ -51,6 +51,8 @@ jobs:
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+      env:
+        AWS_REGION: ap-south-1
       with:
         task-definition: springtask-revision1.json
         service: springservice
