@@ -40,6 +40,19 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
+
+    - name: Deploy to ECS
+      uses: aws/copilot-github-actions/ecs-deploy@v1
+      with:
+        cluster: mycluster
+        service: springservice
+        task-definition: springtask
+        container-name: springcont
+        image: 390067525135.dkr.ecr.ap-south-1.amazonaws.com/springboot:latest
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
     - name: Save as Artifacts
       uses: actions/upload-artifact@v3
       with:
