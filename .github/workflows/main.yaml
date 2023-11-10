@@ -28,7 +28,7 @@ jobs:
       run: rm -rf $HOME/.sonar/cache
 
     - name: SonarQube Scan
-      run: mvn sonar:sonar -Dsonar.projectKey=temporary -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=your-organization -Dsonar.branch.name=${GITHUB_REF#refs/heads/}
+      run: mvn clean verify sonar:sonar -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.organization=temporary -Dsonar.projectKey=temporary -Dsonar.branch.name=${GITHUB_REF#refs/heads/}
 
     - name: Build and Push Docker image
       run: |
