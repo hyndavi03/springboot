@@ -46,7 +46,7 @@ jobs:
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
       with:
-        task-definition: springtask-revision5.json
+        task-definition: springtask-revision8.json
         container-name: springcont
         image: 390067525135.dkr.ecr.ap-south-1.amazonaws.com/springboot:latest
 
@@ -57,7 +57,7 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       with:
-        task-definition: springtask-revision5.json
+        task-definition: springtask-revision8.json
         service: springtask
         cluster: mycluster
         wait-for-service-stability: true
@@ -66,4 +66,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: HelloWorldApplication
-        path: spring-boot-2-hello-world-1.0.2-SNAPSHOT.jar
+        path: target/spring-boot-2-hello-world-1.0.2-SNAPSHOT.jar
