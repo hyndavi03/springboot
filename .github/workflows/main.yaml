@@ -1,16 +1,16 @@
-name: Java  with Maven
+name: Java with Maven
 
 on:
   push:
     branches: [ "main" ]
-  
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
@@ -21,12 +21,14 @@ jobs:
     - name: Change to repository root
       run: cd $GITHUB_WORKSPACE
 
-  
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+    - name: Clear SonarScanner Cache
+      run: rm -rf $HOME/.sonar/cache
+
     - name: SonarQube Scan
-      run: mvn sonar:sonar -Dsonar.projectKey=temporary -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      run: mvn sonar:sonar -Dsonar.projectKey=temporary -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=your-organization -Dsonar.branch.name=${GITHUB_REF#refs/heads/}
 
     - name: Build and Push Docker image
       run: |
@@ -60,10 +62,9 @@ jobs:
         service: springservice
         cluster: mycluster
         wait-for-service-stability: true
+
     - name: Save as Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: HelloWorldApplication
         path: spring-boot-2-hello-world-1.0.2-SNAPSHOT.jar
-
- 
