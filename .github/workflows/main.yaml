@@ -58,7 +58,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       with:
         task-definition: springtask-revision5.json
-        service: sservice
+        service: springtask
         cluster: mycluster
         wait-for-service-stability: true
 
