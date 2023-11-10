@@ -52,7 +52,7 @@ jobs:
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
       with:
-        task-definition: springtask
+        task-definition: springtask-revision1.json
         service: springservice
         cluster: mycluster
         wait-for-service-stability: true
